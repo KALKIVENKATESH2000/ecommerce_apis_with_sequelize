@@ -27,7 +27,6 @@ const _State = require("./State");
 const _Subcategory = require("./Subcategory");
 const _UserProfile = require("./UserProfile");
 const _Useraddress = require("./Useraddress");
-const _User = require("./User");
 
 function initModels(sequelize) {
   const AuthGroup = _AuthGroup(sequelize, DataTypes);
@@ -58,7 +57,6 @@ function initModels(sequelize) {
   const Subcategory = _Subcategory(sequelize, DataTypes);
   const UserProfile = _UserProfile(sequelize, DataTypes);
   const Useraddress = _Useraddress(sequelize, DataTypes);
-  const User = _User(sequelize, DataTypes);
 
   AuthGroupPermission.belongsTo(AuthGroup, { foreignKey: "group_id"});
   AuthGroup.hasMany(AuthGroupPermission, { foreignKey: "group_id"});
@@ -160,7 +158,6 @@ function initModels(sequelize) {
     Subcategory,
     UserProfile,
     Useraddress,
-    User,
   };
 }
 module.exports = initModels;
