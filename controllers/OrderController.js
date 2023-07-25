@@ -80,7 +80,45 @@ exports.PlaceOrder =  async (req, res) => {
     }
 };
 
-
+// GET user orders
+exports.getOrder = async (req, res) => {
+  try {
+    const { order_id } = req.params;
+    const order = await Order.findOne({
+        where:{
+          user_id: req.user.userId,
+          id     : order_id
+        },
+        include: [
+            {
+                model: User,
+                attributes: ['id','username']
+            },
+            {
+                model: Useraddress,
+                attributes:{exclude:['createdAt', 'updatedAt']}
+            },
+            {
+                model: OrderProduct,
+                attributes:{exclude:['createdAt', 'updatedAt']},
+                include:[
+                  {
+                    model:ProductVariant,
+                    attributes:{exclude:['createdAt', 'updatedAt']}
+                  }
+                ]
+            }
+        ],
+    });
+    if (!order) {
+      return res.status(404).json({ error: 'order not found.' });
+    }
+    res.status(200).json(order);
+  } catch (error) {
+    console.error('Error retrieving order:', error);
+    res.status(500).json({ error: 'Failed to retrieve order.' });
+  }
+};
 // GET user orders
 exports.getUserOrders = async (req, res) => {
   try {
@@ -97,6 +135,19 @@ exports.getUserOrders = async (req, res) => {
             {
                 model: User,
                 attributes: ['id','username']
+            },
+            {
+                model: Useraddress,
+                attributes:{exclude:['createdAt', 'updatedAt']}
+            },
+            {
+                model: OrderProduct,
+                include:[
+                  {
+                    model:ProductVariant,
+                    attributes:{exclude:['createdAt', 'updatedAt']}
+                  }
+                ]
             }
         ],
     };
@@ -104,15 +155,6 @@ exports.getUserOrders = async (req, res) => {
     if (order_status) {
         options.where.order_status = order_status;
     }
-    // const orders = await Order.findAll({
-    //   where: { user_id, order_status },
-    //   include: [
-    //     {
-    //         model: User,
-    //         attributes: ['id','username']
-    //     }
-    //   ],
-    // });
 
     const orders = await Order.findAll(options);
 
@@ -125,13 +167,13 @@ exports.getUserOrders = async (req, res) => {
 
 exports.CancelOrder =  async (req, res) => {
     try {
-      const { orderId } = req.params;
+      const { order_id } = req.params;
   
       // Find the order by ID
-      const order = await Order.findByPk(orderId);
+      const order = await Order.findByPk(order_id);
   
       if (!order) {
-        return res.status(404).json({ error: `Order not found for ID ${orderId}.` });
+        return res.status(404).json({ error: `Order not found for ID ${order_id}.` });
       }
   
       // Check if the order is already canceled

@@ -22,7 +22,8 @@ class AuthUser extends Sequelize.Model {
     },
     is_superuser: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: false,
+      defaultValue: 0,
     },
     username: {
       type: DataTypes.STRING(150),
@@ -43,15 +44,18 @@ class AuthUser extends Sequelize.Model {
     },
     is_staff: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: false,
+      defaultValue: 0,
     },
     is_active: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: false,
+      defaultValue: 1,
     },
     date_joined: {
       type: DataTypes.DATE(6),
-      allowNull: false
+      allowNull: true,
+      defaultValue: DataTypes.NOW,
     }
   }, {
     sequelize,

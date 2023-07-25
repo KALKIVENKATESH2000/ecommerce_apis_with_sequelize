@@ -4,7 +4,8 @@ const OrderController = require('../controllers/OrderController');
 const verifyToken = require('../middleware')
 
 router.post('/PlaceOrder', verifyToken, OrderController.PlaceOrder);
-router.get('/', verifyToken, OrderController.getUserOrders);
-router.post('/:orderId/CancelOrder', verifyToken, OrderController.CancelOrder);
+router.get('/MyOrders', verifyToken, OrderController.getUserOrders);
+router.get('/:order_id', verifyToken, OrderController.getOrder);
+router.post('/:order_id/CancelOrder', verifyToken, OrderController.CancelOrder);
 
 module.exports = router;

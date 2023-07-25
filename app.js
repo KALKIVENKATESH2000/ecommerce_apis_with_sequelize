@@ -4,6 +4,7 @@ const session = require('express-session');
 const cors = require("cors");
 const dotenv = require('dotenv');
 dotenv.config();
+const path  = require("path");
 const PORT = process.env.PORT;
 
 const userRouter = require('./routers/user.Router');
@@ -20,6 +21,8 @@ const orderRouter = require('./routers/order.Router');
 var corsOptions = {
     origin: "http://localhost:8081"
 };
+
+app.use('/media/uploads', express.static(__dirname + '/media/uploads'));
 
 // Configure session middleware
 app.use(session({

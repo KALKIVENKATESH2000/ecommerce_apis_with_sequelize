@@ -16,12 +16,18 @@ exports.createUserProfile = async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: 'User not found.' });
     } 
+    const file = req.file;
+    // res.send(file)
+    if(!file) return res.status(400).send('No image in the request')
+    
+    const fileName = req.file.filename
+    const basePath = `${req.protocol}://${req.get('host')}/media/uploads/users/`;
 
     const checkUser = await UserProfile.findOne({where:{user_id:user_id}})
     if (checkUser){
       checkUser.gender = gender;
       checkUser.phone = phone;
-      checkUser.image = image;
+      checkUser.image =  `${basePath}${fileName}`;
       await checkUser.save();
       return res.status(201).json({ message : 'User profile updated.', user_profile:checkUser})
     }
@@ -29,7 +35,7 @@ exports.createUserProfile = async (req, res) => {
     const userProfile = await UserProfile.create({ 
           gender, 
           phone, 
-          image, 
+          image : `${basePath}${fileName}`, 
           user_id 
     });
     res.status(200).json({ message : 'User profile created sucefully.', userProfile});
@@ -42,8 +48,25 @@ exports.createUserProfile = async (req, res) => {
 // USER CRUD
 
 exports.getCurrentUser = async (req, res) => {
-  const currentUser = req.user;
-  res.json({ user: currentUser });
+  try {
+    const { user_id } = req.user.userId;
+    const user_details = await User.findOne({
+        where:{
+          id:req.user.userId,
+        },
+        attributes:['first_name', 'last_name', 'email'],
+        include:[
+            {
+                model:UserProfile,
+                attributes:{exclude:['user_id']}
+            }
+        ]
+    })
+    res.json({ user_details });
+  } catch (error) {
+    console.error('Error retrieving user:', error);
+    res.status(500).json({ error: 'Failed to retrieve user.' });
+  }
 };
 
 exports.getUsers = async (req, res) => {
@@ -58,16 +81,18 @@ exports.getUsers = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { first_name, last_name, email } = req.body;
-    const user = await User.findByPk(id);
-    if (!user) {
-      return res.status(404).json({ error: 'User not found.' });
-    }
-    user.first_name = first_name;
-    user.last_name = last_name;
-    user.email = email;
-    await user.save();
+      const { id } = req.params;
+      const { first_name, last_name, email } = req.body;
+      const user = await User.findByPk(id);
+      if (!user) {
+        return res.status(404).json({ error: 'User not found.' });
+      }
+      
+
+      user.first_name = first_name;
+      user.last_name = last_name;
+      user.email = email;
+      await user.save();
     res.json(user);
   } catch (error) {
     console.error('Error updating user:', error);
@@ -115,24 +140,24 @@ exports.createUserAddress = async (req, res) => {
 };
 
 exports.getUserAddresses = async (req, res) => {
-  try {
-    const user_id = req.user.userId
+    try {
+        const user_id = req.user.userId
 
-    const user = await User.findByPk(user_id);
-    if (!user) {
-      return res.status(404).json({ error: 'User not found.' });
-    }
-
-    const userAddress = await Useraddress.findAll({
-        where:{ 
-            user_id : user_id
+        const user = await User.findByPk(user_id);
+        if (!user) {
+            return res.status(404).json({ error: 'User not found.' });
         }
-      });
-    res.status(200).json({ message : 'User addresses.', userAddress});
-  } catch (error) {
-    console.error('Error creating User address:', error);
-    res.status(500).json({ error: 'Failed to create User address.' });
-  }
+
+        const userAddress = await Useraddress.findAll({
+            where:{ 
+                user_id : user_id
+            }
+          });
+        res.status(200).json({ message : 'User addresses.', userAddress});
+    } catch (error) {
+        console.error('Error creating User address:', error);
+        res.status(500).json({ error: 'Failed to create User address.' });
+    }
 };
 
 exports.updateUserAddress = async (req, res) => {
