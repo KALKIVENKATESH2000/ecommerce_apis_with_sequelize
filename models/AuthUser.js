@@ -18,7 +18,8 @@ class AuthUser extends Sequelize.Model {
     },
     last_login: {
       type: DataTypes.DATE(6),
-      allowNull: true
+      allowNull: true,
+      defaultValue: new Date(),
     },
     is_superuser: {
       type: DataTypes.BOOLEAN,
