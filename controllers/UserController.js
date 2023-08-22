@@ -45,6 +45,27 @@ exports.createUserProfile = async (req, res) => {
   }
 };
 
+exports.getUserProfile = async (req, res) => {
+  try {
+    const { user_id } = req.user.userId;
+    const user_profile = await UserProfile.findOne({
+        where:{
+          user_id:req.user.userId,
+        },
+        // include:[
+        //     {
+        //         model:UserProfile,
+        //         attributes:{exclude:['user_id']}
+        //     }
+        // ]
+    })
+    res.json({ user_profile });
+  } catch (error) {
+    console.error('Error retrieving user_profile:', error);
+    res.status(500).json({ error: 'Failed to retrieve user_profile.' });
+  }
+};
+
 // USER CRUD
 
 exports.getCurrentUser = async (req, res) => {

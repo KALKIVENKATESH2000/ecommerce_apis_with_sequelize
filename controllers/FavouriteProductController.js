@@ -37,7 +37,7 @@ exports.createFavouriteProduct = async (req, res) => {
 exports.getUserFavouriteProduct = async (req, res) => {
     try {
         const user_id = req.user.userId;
-        const userfavProducts = await FavouriteProduct.findAll({where: { user_id : user_id }});
+        const userfavProducts = await FavouriteProduct.findAll({where: { user_id : user_id }, include: [Product],  limit: 10 });
         res.status(200).json({ message: 'Your Favourite list',userfavProducts });
     } catch (error) {
         console.error('Error retrieving favourite products:', error);

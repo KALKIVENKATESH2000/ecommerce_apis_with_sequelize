@@ -43,6 +43,7 @@ router.put('/:id', UserController.updateUser);
 router.delete('/:id', UserController.deleteUser);
 
 router.post('/profile', verifyToken, upload.single('image'), UserController.createUserProfile);
+router.get('/profile', verifyToken, UserController.getUserProfile);
 router.post('/address', verifyToken, UserController.createUserAddress);
 router.get('/address', verifyToken, UserController.getUserAddresses);
 router.put('/address/:id', verifyToken, UserController.updateUserAddress);
