@@ -60,6 +60,20 @@ exports.getUserCart = async (req, res) => {
         // Retrieve all items in the user's cart
         const user_cart = await Cart.findAll({
                 where: { user_id },
+                include: [
+                    {
+                        model: User,
+                        attributes: ['id','username']
+                    },
+                    {
+                        model: Product,
+                        attributes:{exclude:['createdAt', 'updatedAt']}
+                    },
+                    {
+                        model: ProductVariant,
+                        attributes:{exclude:['createdAt', 'updatedAt']},
+                    }
+                ],
         });
     
         // Calculate the total amount of the cart
