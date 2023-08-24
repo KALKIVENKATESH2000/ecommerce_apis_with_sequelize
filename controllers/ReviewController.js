@@ -51,7 +51,8 @@ exports.getUserReviews = async (req, res) => {
     const userReviews = await Review.findAll({
         where:{ 
             user_id : user_id
-        }
+        },
+        include: [User, Product]
       });
     res.status(200).json({ message : 'User reviews.', userReviews});
   } catch (error) {
