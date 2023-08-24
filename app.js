@@ -16,6 +16,8 @@ const productRouter = require('./routers/product.Router');
 const reviewRouter = require('./routers/review.Router');
 const cartRouter = require('./routers/cart.Router');
 const orderRouter = require('./routers/order.Router');
+const filterRouter = require('./routers/filters.Router');
+
 
 
 var corsOptions = {
@@ -45,6 +47,8 @@ app.use('/api/products', productRouter)
 app.use('/api/reviews', reviewRouter)
 app.use('/api/cart', cartRouter)
 app.use('/api/orders', orderRouter)
+app.use('/api/filter', filterRouter)
+
 
 
 app.listen(PORT, () => {
