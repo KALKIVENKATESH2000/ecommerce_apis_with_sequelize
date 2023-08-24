@@ -38,7 +38,7 @@ class Review extends Sequelize.Model {
     },
     published: {
       type: DataTypes.BOOLEAN,
-      allowNull: false
+      allowNull: true
     }
   }, {
     sequelize,

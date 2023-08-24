@@ -69,6 +69,12 @@ class Order extends Sequelize.Model {
       defaultValue: 0
       
     },
+    discountAmount: {
+      type: DataTypes.DECIMAL(20,2),
+      allowNull: false,
+      defaultValue: 0
+      
+    },
     order_cancel_date: {
       type: DataTypes.DATE,
       allowNull: true,
