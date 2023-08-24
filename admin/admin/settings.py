@@ -32,7 +32,7 @@ ALLOWED_HOSTS = ['65.2.174.18', '127.0.0.1]
 # Application definition
 
 INSTALLED_APPS = [
-    'adminlteui',
+    # 'adminlteui',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
