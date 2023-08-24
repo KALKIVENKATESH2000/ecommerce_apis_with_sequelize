@@ -5,7 +5,7 @@ const cors = require("cors");
 const dotenv = require('dotenv');
 dotenv.config();
 const path  = require("path");
-const PORT = process.env.PORT;
+const PORT = 3001;
 
 const userRouter = require('./routers/user.Router');
 const bannerRouter = require('./routers/banner.Router');
