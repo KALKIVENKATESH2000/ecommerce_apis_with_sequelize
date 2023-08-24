@@ -19,7 +19,9 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 
-
+admin.site.site_header = 'Ecommerce APIs'                    # default: "Django Administration"
+admin.site.index_title = 'Ecommerce'                 # default: "Site administration"
+admin.site.site_title = 'admin' 
 urlpatterns = [
     path('admin/', admin.site.urls),
 ]
