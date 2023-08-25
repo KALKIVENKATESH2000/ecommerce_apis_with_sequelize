@@ -1,4 +1,5 @@
 const model = require('../models');
+const Product = model.Product;
 const Order = model.Order;
 const OrderProduct = model.OrderProduct
 const ProductVariant = model.ProductVariant
@@ -143,6 +144,10 @@ exports.getUserOrders = async (req, res) => {
             {
                 model: OrderProduct,
                 include:[
+                  {
+                    model:Product,
+                    attributes:{exclude:['createdAt', 'updatedAt']}
+                  },
                   {
                     model:ProductVariant,
                     attributes:{exclude:['createdAt', 'updatedAt']}
