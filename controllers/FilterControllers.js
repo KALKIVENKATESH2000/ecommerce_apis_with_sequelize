@@ -1,4 +1,5 @@
 const model = require('../models');
+const ProductVariant =  model.ProductVariant
 const Category = model.Category
 const ChildCategory = model.Childcategory
 const SubCategory = model.Subcategory
@@ -28,9 +29,10 @@ exports.FilterProducts =  async (req, res) => {
       const products = await Product.findAll({
         where: whereCondition,
         include: [
-          { model: Category },
-          { model: SubCategory },
-          { model: ChildCategory },
+            { model: ProductVariant },
+            { model: Category },
+            { model: SubCategory },
+            { model: ChildCategory },
         ],
       });
   
