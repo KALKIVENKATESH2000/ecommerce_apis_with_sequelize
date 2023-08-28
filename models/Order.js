@@ -48,6 +48,10 @@ class Order extends Sequelize.Model {
       allowNull: false,
       defaultValue: 'Pending'
     },
+    cancellationReason: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     payment_mode: {
       type: DataTypes.STRING(15),
       allowNull: false,

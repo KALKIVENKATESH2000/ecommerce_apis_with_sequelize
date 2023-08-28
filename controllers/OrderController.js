@@ -173,6 +173,7 @@ exports.getUserOrders = async (req, res) => {
 exports.CancelOrder =  async (req, res) => {
     try {
       const { order_id } = req.params;
+      const { reason } = req.body;
   
       // Find the order by ID
       const order = await Order.findByPk(order_id);
@@ -187,6 +188,7 @@ exports.CancelOrder =  async (req, res) => {
       }
   
       // Update the order status to 'canceled'
+      order.cancellationReason = reason;
       order.order_status = 'Cancelled';
       order.order_cancel_date = new Date();
       await order.save();

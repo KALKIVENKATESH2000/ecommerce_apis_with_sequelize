@@ -33,6 +33,7 @@ class Order(models.Model):
     delivery_charge  = models.DecimalField(default=0,max_digits=20,decimal_places=2)
     packing_charge   = models.DecimalField(default=0,max_digits=20,decimal_places=2)
     discountAmount   = models.DecimalField(default=0,max_digits=20,decimal_places=2)
+    cancellationReason     = models.CharField(max_length=250,null=True,blank=True)
     order_cancel_date= models.DateTimeField(null=True,blank=True)
     createdAt        = models.DateTimeField(auto_now_add=True)
     updatedAt        = models.DateTimeField(auto_now=True)
