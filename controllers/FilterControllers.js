@@ -3,13 +3,13 @@ const ProductVariant =  model.ProductVariant
 const Category = model.Category
 const ChildCategory = model.Childcategory
 const SubCategory = model.Subcategory
-
+const { Sequelize, DataTypes } = require('sequelize');
 const Product = model.Product;
 
 
 
 exports.FilterProducts =  async (req, res) => {
-    const { category_id, subcategory_id, childcategory_id } = req.query;
+    const { category_id, subcategory_id, childcategory_id, min_price, max_price } = req.query;
   
     let whereCondition = {};
   
@@ -23,6 +23,12 @@ exports.FilterProducts =  async (req, res) => {
   
     if (childcategory_id) {
       whereCondition.childcategory_id = childcategory_id;
+    }
+
+    if (min_price && max_price) {
+      whereCondition['$ProductVariants.offerPrice$'] = {
+        [Sequelize.Op.between]: [min_price, max_price],
+      };
     }
   
     try {
