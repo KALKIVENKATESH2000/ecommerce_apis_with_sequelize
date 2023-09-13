@@ -17,8 +17,8 @@ exports.createFavouriteProduct = async (req, res) => {
           return res.status(404).send('Product not found');
         }
   
-        const existingProduct = await FavouriteProduct.findOne({where:{product_id:product.id}});
-        console.log(existingProduct)
+        const existingProduct = await FavouriteProduct.findOne({where:{product_id:product.id, user_id: user.id }});
+        // console.log(existingProduct)
         if (existingProduct) {
           return res.status(400).json({ message: 'Product already in Your Favirite list' });
         }
