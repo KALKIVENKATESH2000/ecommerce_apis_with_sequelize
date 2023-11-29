@@ -8,7 +8,8 @@ admin.site.register(Profile, ProfileAdmin)
 
 
 class UseraddressAdmin(admin.ModelAdmin):
-    list_display =  [f.name for f in Useraddress._meta.get_fields()]
+    # list_display =  [f.name for f in Useraddress._meta.get_fields()]
+    list_display = ["user","name","mobile_no","address"]
 admin.site.register(Useraddress, UseraddressAdmin)
 
 
